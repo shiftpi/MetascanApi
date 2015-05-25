@@ -1,0 +1,14 @@
+{
+    "name": "shiftpi/metascan-api",
+    "description": "Access to Metascan Online API",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andreas Rutz",
+            "email": "andreas.rutz@posteo.de",
+            "homepage": "http://github.com/shiftpi"
+        }
+    ],
+    "require": {}
+}
