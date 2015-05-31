@@ -10,5 +10,24 @@
             "homepage": "http://github.com/shiftpi"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=5.4.0",
+        "zendframework/zendframework": "~2.4.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.6.7"
+    },
+    "autoload": {
+        "psr-0": {
+            "ShiftpiMetascanApi": "src"
+        },
+        "classmap": [
+            "./"
+        ]
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "ShiftpiMetascanApiTest": "test/ShiftpiMetascanApiTest"
+        }
+    }
 }
