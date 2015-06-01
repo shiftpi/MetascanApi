@@ -70,7 +70,7 @@ class Scan
 
     /**
      * Scan synchronously
-     * @param $data Data that has to be scanned
+     * @param string $data Data that has to be scanned
      * @param string $filename Optional, filename
      * @param string $archivepassword Optional, archive password, if $data is an encrypted archive
      * @return Result
@@ -85,7 +85,7 @@ class Scan
         $httpResponse = $this->httpClient->send($startRequest);
 
         if ($httpResponse->getStatusCode() !== Response::STATUS_CODE_200) {
-            throw new RequestFailedException($startRequest->getStatusCode());
+            throw new RequestFailedException($httpResponse->getStatusCode());
         }
 
         /** @var Progress $progress */
