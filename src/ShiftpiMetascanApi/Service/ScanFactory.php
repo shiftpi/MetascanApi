@@ -4,7 +4,6 @@ namespace ShiftpiMetascanApi\Service;
 use Zend\Http\Client as HttpClient;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Http\Client\Adapter\Curl;
 use ShiftpiMetascanApi\Entity\Result;
 use ShiftpiMetascanApi\Entity\Progress;
 use Zend\Stdlib\Hydrator\ClassMethods;
@@ -31,11 +30,8 @@ class ScanFactory implements FactoryInterface
             'progress_percentage' => 'percCompleted',
         ]));
 
-        $adapter = new Curl();
-        $adapter->setCurlOption(CURLOPT_TIMEOUT, 5 * 60);
-
         $client = new HttpClient();
-        $client->setAdapter($adapter);
+        $client->setAdapter($serviceLocator->get('ShiftpiMetascanApi\Http\Adapter'));
 
         return new Scan(
             $serviceLocator->get(Result::class),

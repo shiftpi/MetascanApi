@@ -3,6 +3,7 @@ namespace ShiftpiMetascanApiTest\Api;
 
 use ShiftpiMetascanApi\Entity\Result;
 use ShiftpiMetascanApi\Entity\Progress;
+use ShiftpiMetascanApi\Http\Adapter\CurlFactory;
 use ShiftpiMetascanApi\Http\ApiRequestFactory;
 use ShiftpiMetascanApi\Http\ScanRequestFactory;
 use ShiftpiMetascanApi\Service\RequestFailedException;
@@ -33,6 +34,7 @@ class FileScanTest extends \PHPUnit_Framework_TestCase
         $this->sm->setShareByDefault(false);
         $this->sm->setInvokableClass(Result::class, Result::class)
             ->setInvokableClass(Progress::class, Progress::class)
+            ->setFactory('ShiftpiMetascanApi\Http\Adapter', CurlFactory::class)
             ->setFactory('ShiftpiMetascanApi\Http\ScanRequest', ScanRequestFactory::class)
             ->setFactory('ShiftpiMetascanApi\Http\ApiRequest', ApiRequestFactory::class)
             ->setFactory('config', function() {

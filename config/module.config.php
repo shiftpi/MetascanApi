@@ -18,6 +18,7 @@ return [
             __NAMESPACE__ . '\Http\ApiRequest' => Http\ApiRequestFactory::class,
             __NAMESPACE__ . '\Http\ScanRequest' => Http\ScanRequestFactory::class,
             __NAMESPACE__ . '\Http\HashLookupRequest' => Http\HashLookupRequestFactory::class,
+            __NAMESPACE__ . '\Http\Adapter' => Http\Adapter\CurlFactory::class,
         ],
         'shared' => [
             Entity\Result::class => false,

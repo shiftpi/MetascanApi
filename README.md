@@ -23,6 +23,8 @@ Add
 ]
 ```
 to your application's config.
+You may want to use another HTTP client adapter. By default CURL is used. 
+To use your own adapter, register `ShiftpiMetascanApi\Http\Adapter` and make sure it is an instance of `Zend\Http\Client\Adapter\AdapterInterface`.
 
 ## Usage
 ### Scan data

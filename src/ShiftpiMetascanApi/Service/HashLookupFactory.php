@@ -3,7 +3,6 @@ namespace ShiftpiMetascanApi\Service;
 
 use ShiftpiMetascanApi\Entity\Result;
 use Zend\Http\Client as HttpClient;
-use Zend\Http\Client\Adapter\Curl;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\ClassMethods;
@@ -30,11 +29,8 @@ class HashLookupFactory implements FactoryInterface
             'progress_percentage' => 'percCompleted',
         ]));
 
-        $adapter = new Curl();
-        $adapter->setCurlOption(CURLOPT_TIMEOUT, 5 * 60);
-
         $client = new HttpClient();
-        $client->setAdapter($adapter);
+        $client->setAdapter($serviceLocator->get('ShiftpiMetascanApi\Http\Adapter'));
 
         return new HashLookup(
             $serviceLocator->get(Result::class),

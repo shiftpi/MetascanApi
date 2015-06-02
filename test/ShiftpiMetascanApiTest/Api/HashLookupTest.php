@@ -2,6 +2,7 @@
 namespace ShiftpiMetascanApiTest\Api;
 
 use ShiftpiMetascanApi\Entity\Result;
+use ShiftpiMetascanApi\Http\Adapter\CurlFactory;
 use ShiftpiMetascanApi\Http\ApiRequestFactory;
 use ShiftpiMetascanApi\Http\HashLookupRequestFactory;
 use ShiftpiMetascanApi\Service\HashLookup;
@@ -30,6 +31,7 @@ class HashLookupTest extends \PHPUnit_Framework_TestCase
         $this->sm->setAllowOverride(true);
         $this->sm->setShareByDefault(false);
         $this->sm->setInvokableClass(Result::class, Result::class)
+            ->setFactory('ShiftpiMetascanApi\Http\Adapter', CurlFactory::class)
             ->setFactory('ShiftpiMetascanApi\Http\HashLookupRequest', HashLookupRequestFactory::class)
             ->setFactory('ShiftpiMetascanApi\Http\ApiRequest', ApiRequestFactory::class)
             ->setFactory('config', function() {
