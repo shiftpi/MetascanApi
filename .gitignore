@@ -1,6 +1,7 @@
 .buildpath
 .project
 .settings/
+*.local.php
 .idea
 .DS_Store
 vendor
