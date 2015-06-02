@@ -14,7 +14,7 @@ use Zend\ServiceManager\ServiceManager;
 /**
  * Tests the Scan class against the API
  * !! Keep your API limits in mind !!
- * @coversDefaulClass ShiftpiMetascanApi\Service\Scan
+ * @coversDefaultClass ShiftpiMetascanApi\Service\Scan
  * @author Andreas Rutz <andreas.rutz@posteo.de>
  * @license MIT
  */
@@ -108,7 +108,7 @@ class FileScanTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::scan
      */
-    public function testWrongUrl()
+    public function testWrongApiKey()
     {
         $config = $this->sm->get('config');
         $config['metascan']['key'] = '';

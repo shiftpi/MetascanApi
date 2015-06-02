@@ -80,6 +80,7 @@ class HashLookup
 
         if (isset($data[$hash]) && $data[$hash] === 'Not Found') {
             $result->setResult(Result::RESULT_NOTFOUND);
+            $result->setRawResult($data);
             return $result;
         }
 
