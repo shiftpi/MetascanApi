@@ -68,7 +68,7 @@ class HashLookupTest extends \PHPUnit_Framework_TestCase
      */
     public function testInfected()
     {
-        $result = $this->service->lookup(md5('X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*'));
+        $result = $this->service->lookup(md5(FileScanTest::EICAR));
 
         $this->assertEquals(Result::FILETYPE_TEXT, $result->getFileTypeCategory());
         $this->assertEquals(Result::RESULT_INFECTED, $result->getResult());

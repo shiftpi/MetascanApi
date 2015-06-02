@@ -11,6 +11,7 @@ use ShiftpiMetascanApi\Service\Scan;
 use ShiftpiMetascanApi\Service\ScanFactory;
 use Zend\Crypt\BlockCipher;
 use Zend\ServiceManager\ServiceManager;
+use ZipArchive;
 
 /**
  * Tests the Scan class against the API
@@ -26,6 +27,8 @@ class FileScanTest extends \PHPUnit_Framework_TestCase
 
     /** @var ServiceManager */
     protected $sm;
+
+    const EICAR = 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*';
 
     public function setUp()
     {
@@ -71,19 +74,13 @@ class FileScanTest extends \PHPUnit_Framework_TestCase
      * @covers ::scan
      * @throws RequestFailedException
      */
-    public function testEncrypted()
+    public function testEncryptedInfected()
     {
-        $password = 'secret';
-        $cipher = BlockCipher::factory('mcrypt', ['algo' => 'aes']);
-        $cipher->setKey($password);
-        $data = $cipher->encrypt('Some not infected and completely useless but compressed text '
-            . mt_rand());
-        $filename = 'file_' . mt_rand() . '.txt';
+        $result = $this->service->scan(file_get_contents(__DIR__ . '/../../data/infected.zip'),
+            'file_' . mt_rand() . '.zip', 'secret');
 
-        $result = $this->service->scan($data, $filename, $password);
-
-        $this->assertEquals(Result::FILETYPE_TEXT, $result->getFileTypeCategory());
-        $this->assertEquals(Result::RESULT_CLEAN, $result->getResult());
+        $this->assertEquals(Result::FILETYPE_ARCHIVE, $result->getFileTypeCategory());
+        $this->assertEquals(Result::RESULT_INFECTED, $result->getResult());
         $this->assertEquals(100, $result->getPercCompleted());
         $this->assertInternalType('array', $result->getRawResult());
         $this->assertInternalType('int', $result->getTotalAvs());
@@ -95,10 +92,9 @@ class FileScanTest extends \PHPUnit_Framework_TestCase
      */
     public function testInfected()
     {
-        $data = 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*';
         $filename = 'file_' . mt_rand() . '.txt';
 
-        $result = $this->service->scan($data, $filename);
+        $result = $this->service->scan(self::EICAR, $filename);
 
         $this->assertEquals(Result::FILETYPE_TEXT, $result->getFileTypeCategory());
         $this->assertEquals(Result::RESULT_INFECTED, $result->getResult());
