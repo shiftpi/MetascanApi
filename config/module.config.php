@@ -14,8 +14,10 @@ return [
         ],
         'factories' => [
             Service\Scan::class => Service\ScanFactory::class,
+            Service\HashLookup::class => Service\HashLookupFactory::class,
             __NAMESPACE__ . '\Http\ApiRequest' => Http\ApiRequestFactory::class,
             __NAMESPACE__ . '\Http\ScanRequest' => Http\ScanRequestFactory::class,
+            __NAMESPACE__ . '\Http\HashLookupRequest' => Http\HashLookupRequestFactory::class,
         ],
         'shared' => [
             Entity\Result::class => false,
@@ -24,6 +26,7 @@ return [
     ],
     'metascan' => [
         'data_url' => 'https://scan.metascan-online.com/v2/file',
+        'hash_url' => 'https://hashlookup.metascan-online.com/v2/hash',
         'key' => '' // your key
     ],
 ];

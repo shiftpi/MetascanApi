@@ -1,21 +1,20 @@
 <?php
 namespace ShiftpiMetascanApi\Service;
 
+use ShiftpiMetascanApi\Entity\Result;
 use Zend\Http\Client as HttpClient;
+use Zend\Http\Client\Adapter\Curl;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Http\Client\Adapter\Curl;
-use ShiftpiMetascanApi\Entity\Result;
-use ShiftpiMetascanApi\Entity\Progress;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
 /**
- * Factory for \ShiftpiMetascanApi\Service\Scan
+ * Factory for \ShiftpiMetascanApi\Service\HashLookup
  * @author Andreas Rutz <andreas.rutz@posteo.de>
  * @license MIT
  */
-class ScanFactory implements FactoryInterface
+class HashLookupFactory implements FactoryInterface
 {
     /**
      * @inheritdoc
@@ -37,13 +36,11 @@ class ScanFactory implements FactoryInterface
         $client = new HttpClient();
         $client->setAdapter($adapter);
 
-        return new Scan(
+        return new HashLookup(
             $serviceLocator->get(Result::class),
             $fileHydrator,
-            new ClassMethods(),
-            $serviceLocator->get(Progress::class),
             $client,
-            $serviceLocator->get('ShiftpiMetascanApi\Http\ScanRequest')
+            $serviceLocator->get('ShiftpiMetascanApi\Http\HashLookupRequest')
         );
     }
 }

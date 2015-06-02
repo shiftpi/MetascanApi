@@ -26,9 +26,6 @@ class Scan
     /** @var HydratorInterface */
     protected $fileHydrator;
 
-    /** @var Request */
-    protected $requestPrototype;
-
     /** @var HydratorInterface */
     protected $progressHydrator;
 
@@ -44,7 +41,6 @@ class Scan
     /**
      * @param Result $resultPrototype
      * @param HydratorInterface $fileHydrator
-     * @param Request $requestPrototype
      * @param HydratorInterface $progressHydrator
      * @param Progress $progressPrototype
      * @param Client $httpClient
@@ -53,7 +49,6 @@ class Scan
     public function __construct(
         Result $resultPrototype,
         HydratorInterface $fileHydrator,
-        Request $requestPrototype,
         HydratorInterface $progressHydrator,
         Progress $progressPrototype,
         Client $httpClient,
@@ -61,7 +56,6 @@ class Scan
     {
         $this->resultPrototype = $resultPrototype;
         $this->fileHydrator = $fileHydrator;
-        $this->requestPrototype = $requestPrototype;
         $this->progressHydrator = $progressHydrator;
         $this->progressPrototype = $progressPrototype;
         $this->httpClient = $httpClient;
