@@ -5,7 +5,4 @@
             <directory>./ShiftpiMetascanApiTest/Api</directory>
         </testsuite>
     </testsuites>
-    <php>
-        <env name="apikey" value="" />
-    </php>
 </phpunit>

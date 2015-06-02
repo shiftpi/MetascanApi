@@ -1,0 +1,9 @@
+<?php
+/**
+ * Test configuration
+ * @author Andreas Rutz <andreas.rutz@posteo.de>
+ * @license MIT
+ */
+return [
+    'apikey' => 'yourkey',
+];

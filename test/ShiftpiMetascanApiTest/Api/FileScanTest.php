@@ -11,6 +11,13 @@ use ShiftpiMetascanApi\Service\ScanFactory;
 use Zend\Crypt\BlockCipher;
 use Zend\ServiceManager\ServiceManager;
 
+/**
+ * Tests the Scan class against the API
+ * !! Keep your API limits in mind !!
+ * @coversDefaulClass ShiftpiMetascanApi\Service\Scan
+ * @author Andreas Rutz <andreas.rutz@posteo.de>
+ * @license MIT
+ */
 class FileScanTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Scan */
@@ -32,7 +39,7 @@ class FileScanTest extends \PHPUnit_Framework_TestCase
                 return [
                     'metascan' => [
                         'data_url' => 'https://scan.metascan-online.com/v2/file',
-                        'key' => getenv('apikey')
+                        'key' => APIKEY
                     ],
                 ];
             });
@@ -40,6 +47,10 @@ class FileScanTest extends \PHPUnit_Framework_TestCase
         $this->service = (new ScanFactory())->createService($this->sm);
     }
 
+    /**
+     * @covers ::scan
+     * @throws RequestFailedException
+     */
     public function testClean()
     {
         $data = 'Some not infected and completely useless text ' . mt_rand();
@@ -54,6 +65,10 @@ class FileScanTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $result->getTotalAvs());
     }
 
+    /**
+     * @covers ::scan
+     * @throws RequestFailedException
+     */
     public function testEncrypted()
     {
         $password = 'secret';
@@ -72,6 +87,10 @@ class FileScanTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $result->getTotalAvs());
     }
 
+    /**
+     * @covers ::scan
+     * @throws RequestFailedException
+     */
     public function testInfected()
     {
         $data = 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*';
@@ -86,6 +105,9 @@ class FileScanTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $result->getTotalAvs());
     }
 
+    /**
+     * @covers ::scan
+     */
     public function testWrongUrl()
     {
         $config = $this->sm->get('config');

@@ -18,4 +18,7 @@ $loader = new \Zend\Loader\StandardAutoloader([
     ],
 ]);
 
+$config = require __DIR__ . '/config/config.local.php';
+define('APIKEY', $config['apikey']);
+
 $loader->register();
