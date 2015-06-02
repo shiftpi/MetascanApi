@@ -20,6 +20,7 @@ class Result
     const RESULT_ENCRYPTED = 12;
     const RESULT_EXCEEDEDARCHIVESIZE = 13;
     const RESULT_EXCEEDEDARCHIVEFILENUMBER = 14;
+    const RESULT_NOTFOUND = -1;
 
     const FILETYPE_EXEC = 'E';
     const FILETYPE_DOC = 'D';

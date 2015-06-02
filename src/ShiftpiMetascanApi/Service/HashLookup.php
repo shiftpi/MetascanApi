@@ -63,6 +63,9 @@ class HashLookup
             throw new \InvalidArgumentException('Hash must be of type MD5, SHA1 or SHA256');
         }
 
+        // It seems, that the API transforms every hash to upper characters
+        $hash = strtoupper($hash);
+
         $request = clone $this->hashLookupRequestPrototype;
         $request->setUri($request->getUriString() . '/' . $hash);
         $httpResponse = $this->httpClient->send($request);
@@ -74,6 +77,11 @@ class HashLookup
         /** @var Result $result */
         $result = clone $this->resultPrototype;
         $data = Decoder::decode($httpResponse->getContent(), Json::TYPE_ARRAY);
+
+        if (isset($data[$hash]) && $data[$hash] === 'Not Found') {
+            $result->setResult(Result::RESULT_NOTFOUND);
+            return $result;
+        }
 
         $result = $this->fileHydrator->hydrate($data, $result);
         $result = $this->fileHydrator->hydrate($data['scan_results'], $result);
