@@ -15,6 +15,15 @@ Enable module by adding
 ```
 after you have required `shiftpi/metascan-api` in your `composer.json`.
 
+## Features
+### What is supported?
+- Scanning files by upload
+- Looking up stored reports for single hashes
+
+### What is not supported?
+- Looking up stored reports for multiple hashes
+- Looking up IP addresses or URIs
+
 ## Configuration
 Add 
 ```php
