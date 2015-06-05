@@ -5,6 +5,7 @@ use ShiftpiMetascanApi\Entity\Result;
 use ShiftpiMetascanApi\Http\Adapter\CurlFactory;
 use ShiftpiMetascanApi\Http\ApiRequestFactory;
 use ShiftpiMetascanApi\Http\HashLookupRequestFactory;
+use ShiftpiMetascanApi\Hydrator\ApiFactory;
 use ShiftpiMetascanApi\Service\HashLookup;
 use ShiftpiMetascanApi\Service\HashLookupFactory;
 use ShiftpiMetascanApi\Service\RequestFailedException;
@@ -34,6 +35,7 @@ class HashLookupTest extends \PHPUnit_Framework_TestCase
             ->setFactory('ShiftpiMetascanApi\Http\Adapter', CurlFactory::class)
             ->setFactory('ShiftpiMetascanApi\Http\HashLookupRequest', HashLookupRequestFactory::class)
             ->setFactory('ShiftpiMetascanApi\Http\ApiRequest', ApiRequestFactory::class)
+            ->setFactory('ShiftpiMetascanApi\Hydrator\Api', ApiFactory::class)
             ->setFactory('config', function() {
                 return [
                     'metascan' => [
@@ -52,7 +54,9 @@ class HashLookupTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotFound()
     {
-        $result = $this->service->lookup(md5('Some not infected and completely useless text ' . mt_rand()));
+        $data = 'Some not infected and completely useless text ' . mt_rand();
+
+        $result = $this->service->lookup(md5($data));
 
         $this->assertNull($result->getFileTypeCategory());
         $this->assertEquals(Result::RESULT_NOTFOUND, $result->getResult());
@@ -60,6 +64,10 @@ class HashLookupTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $result->getRawResult());
         $this->assertNull($result->getTotalAvs());
         $this->assertNull($result->getFileId());
+        $this->assertNull($result->getDisplayName());
+        $this->assertNull($result->getDataHash());
+        $this->assertNull($result->getExtension());
+        $this->assertNull($result->getScanTime());
     }
 
     /**
@@ -75,6 +83,10 @@ class HashLookupTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(100, $result->getPercCompleted());
         $this->assertInternalType('array', $result->getRawResult());
         $this->assertInternalType('int', $result->getTotalAvs());
+        $this->assertContains('eicar', $result->getDisplayName(), '', true);
+        $this->assertEquals(hash('sha256', FileScanTest::EICAR), $result->getDataHash(), '', 0, 10, false, true);
+        $this->assertNull($result->getExtension());
+        $this->assertGreaterThan(0, $result->getScanTime());
     }
 
     /**
@@ -83,13 +95,19 @@ class HashLookupTest extends \PHPUnit_Framework_TestCase
      */
     public function testClean()
     {
-        $result = $this->service->lookup(md5(''));
+        $data = 'abc';
 
-        $this->assertEquals(Result::FILETYPE_OTHER, $result->getFileTypeCategory());
+        $result = $this->service->lookup(md5($data));
+
+        $this->assertEquals(Result::FILETYPE_TEXT, $result->getFileTypeCategory());
         $this->assertEquals(Result::RESULT_CLEAN, $result->getResult());
         $this->assertEquals(100, $result->getPercCompleted());
         $this->assertInternalType('array', $result->getRawResult());
         $this->assertInternalType('int', $result->getTotalAvs());
+        $this->assertNotNull($result->getDisplayName());
+        $this->assertEquals(hash('sha256', $data), $result->getDataHash(), '', 0, 10, false, true);
+        $this->assertNull($result->getExtension());
+        $this->assertGreaterThan(0, $result->getScanTime());
     }
 
     /**

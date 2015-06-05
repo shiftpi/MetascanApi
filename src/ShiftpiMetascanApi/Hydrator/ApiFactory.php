@@ -3,7 +3,14 @@ namespace ShiftpiMetascanApi\Hydrator;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Stdlib\Hydrator\ClassMethods;
+use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
+/**
+ * Factory for creating the default response Hydrator
+ * @author Andreas Rutz <andreas.rutz@posteo.de>
+ * @license MIT
+ */
 class ApiFactory implements FactoryInterface
 {
     /**
@@ -21,7 +28,6 @@ class ApiFactory implements FactoryInterface
             'display_name' => 'displayName',
             'sha256' => 'dataHash',
             'file_type_extension' => 'extension',
-            'total_avs' => 'scannerCount',
             'total_time' => 'scanTime',
         ]));
 

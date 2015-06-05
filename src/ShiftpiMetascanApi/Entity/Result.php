@@ -50,6 +50,24 @@ class Result
     /** @var int */
     protected $percCompleted = 0;
 
+    /** @var string */
+    protected $displayName;
+
+    /**
+     * SHA256 hash
+     * @var string
+     */
+    protected $dataHash;
+
+    /** @var string */
+    protected $extension;
+
+    /**
+     * Time used for scanning in seconds
+     * @var int
+     */
+    protected $scanTime;
+
     /**
      * @return string
      */
@@ -144,5 +162,73 @@ class Result
     public function setPercCompleted($percCompleted)
     {
         $this->percCompleted = (int) $percCompleted;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
+
+    /**
+     * @param string $displayName
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDataHash()
+    {
+        return $this->dataHash;
+    }
+
+    /**
+     * @param string $dataHash
+     */
+    public function setDataHash($dataHash)
+    {
+        $this->dataHash = $dataHash;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * @param string $extension
+     */
+    public function setExtension($extension)
+    {
+        if ($extension === '-') {
+            $extension = null;
+        }
+
+        $this->extension = $extension;
+    }
+
+    /**
+     * @return int
+     */
+    public function getScanTime()
+    {
+        return $this->scanTime;
+    }
+
+    /**
+     * @param int $scanTime
+     */
+    public function setScanTime($scanTime)
+    {
+        $this->scanTime = $scanTime;
     }
 }
